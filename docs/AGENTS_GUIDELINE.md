@@ -18,7 +18,7 @@ Agents read `AGENTS.md` at the start of every session. Its job is to:
 ## Core Principles for Writing One
 
 ### 1. Be imperative, not descriptive
-Write instructions, not narration.
+Write instructions. Never write narration.
 
 | ❌ Weak | ✅ Strong |
 |---|---|
@@ -26,22 +26,22 @@ Write instructions, not narration.
 | "Tests exist in the tests/ folder." | "After every code change, run `uv run pytest` and fix any failures before finishing." |
 
 ### 2. Prefer exact commands over prose
-Every task the agent might perform should have a copy-pasteable command. Ambiguity about *how* to do something causes hallucinated commands.
+Provide a copy-pasteable command for every task the agent might perform. Never describe a command in prose when an exact command exists.
 
 ### 3. Layer from general to specific
-Structure: project overview → environment setup → conventions → workflow → constraints. Agents scan top-to-bottom; front-load the most load-bearing decisions.
+Structure the file from general to specific: project overview → environment setup → conventions → workflow → constraints. Front-load the most load-bearing decisions because agents scan top-to-bottom.
 
 ### 4. Encode your non-obvious decisions
-Obvious things ("don't break syntax") don't need to be said. Non-obvious things ("we never raise bare `Exception`, always use domain-specific error classes") absolutely do.
+Document only non-obvious decisions. Omit obvious rules like "don't break syntax". Include non-obvious rules like "we never raise bare `Exception`; always use domain-specific error classes".
 
 ### 5. Keep it honest and current
-A stale `AGENTS.md` is worse than none. If the file says `pytest` but you've migrated to `unittest`, the agent will silently run the wrong thing. Treat it like code — update it when the project changes.
+Keep the file current. A stale `AGENTS.md` is worse than none. Update it every time the project changes—commands, dependencies, or workflow.
 
 ### 6. Be explicit about quality gates
-The agent must know what "done" means. List every check that must pass before a change is considered complete.
+Define "done" explicitly. List every check that must pass before a change is considered complete.
 
 ### 7. Scope to what changes
-Don't pad with things that never affect a coding session (e.g., deployment docs, org chart). Every line should answer the question: *"Would this change how the agent writes or checks code?"*
+Scope every line to what changes. Omit anything that does not affect how the agent writes or checks code, such as deployment runbooks or org charts. Ask yourself: "Would this change how the agent writes or checks code?"
 
 ---
 
@@ -83,6 +83,36 @@ Don't pad with things that never affect a coding session (e.g., deployment docs,
 | `/scripts/AGENTS.md` | Only the `scripts/` subtree |
 
 Agents typically merge parent + subdirectory files. Use subdirectory files to override or extend, not repeat.
+
+---
+
+## Relationship to Other Documentation
+
+| File | Audience | Content |
+|---|---|---|
+| `README.md` | Human contributors | Quick start, project description, contribution guidelines |
+| `CONTRIBUTING.md` | Human contributors | Detailed process for submitting changes, code of conduct |
+| `AGENTS.md` | AI agents | Exact commands, conventions, constraints, and quality gates |
+
+Never duplicate human-oriented content from `README.md` or `CONTRIBUTING.md` in `AGENTS.md`. Cross-reference them if an agent needs to know they exist.
+
+---
+
+## Clarification Questions
+
+When instructing an agent to write an `AGENTS.md`, answer these questions first:
+
+- [ ] What is the primary language and framework?
+- [ ] What is the tech stack? (languages, build tools, package managers)
+- [ ] How are dependencies installed and the project run?
+- [ ] What linting, formatting, and type-checking tools are used?
+- [ ] What is the test command and are there coverage requirements?
+- [ ] Are there pre-commit hooks or CI checks to document?
+- [ ] What is the project structure and where do different file types live?
+- [ ] Are there architecture rules or layering constraints?
+- [ ] Are there naming conventions or patterns the agent must follow?
+- [ ] Are there forbidden patterns or anti-patterns?
+- [ ] Should the agent follow an existing convention or style guide?
 
 ---
 
