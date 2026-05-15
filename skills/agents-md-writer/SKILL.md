@@ -32,6 +32,14 @@ For greenfield work, distinguish confirmed decisions from unresolved ones. If th
 
 ---
 
+## Reference Defaults
+
+When writing `AGENTS.md` for a Python project and the user asks for recommended defaults, read `references/python-defaults.md`.
+
+Do not apply reference defaults when the repository already uses conflicting tools or the user specifies a different stack. Existing repository facts and explicit user choices take priority over defaults.
+
+---
+
 ## Core Principles for Writing One
 
 ### 1. Be imperative, not descriptive
