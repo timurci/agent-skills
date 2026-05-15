@@ -20,6 +20,18 @@ Agents read `AGENTS.md` at the start of every session. Its job is to:
 
 ---
 
+## Source of Truth
+
+Before writing or updating `AGENTS.md`, determine which source of truth applies:
+
+1. **Existing repository**: If implementation files, manifests, configs, tests, scripts, or CI files exist, inspect them first. Derive commands, tooling, structure, and conventions from the repository.
+2. **Fresh or skeletal repository**: If the repository is empty or only partially initialized, use the user's project specification as the source of truth. Write instructions for the intended project, but do not claim that commands, files, or tooling already exist unless they do.
+3. **Mixed signals**: If repository contents conflict with the user's description, treat repository contents as current facts and the user's description as intended direction. Ask before encoding future intentions as present-tense instructions.
+
+For greenfield work, distinguish confirmed decisions from unresolved ones. If the user asks you to choose reasonable defaults, choose simple conventional defaults and encode them directly. If the user has not delegated that choice, ask before inventing tooling, directory structure, quality gates, or commands.
+
+---
+
 ## Core Principles for Writing One
 
 ### 1. Be imperative, not descriptive
@@ -41,6 +53,8 @@ Document only non-obvious decisions. Omit obvious rules like "don't break syntax
 
 ### 5. Keep it honest and current
 Keep the file current. A stale `AGENTS.md` is worse than none. Update it every time the project changes—commands, dependencies, or workflow.
+
+Do not invent precision. For fresh or not-yet-implemented repositories, distinguish confirmed project decisions from placeholders. Never document commands, directories, dependencies, CI checks, or quality gates as existing facts unless the repository or user specification confirms them.
 
 ### 6. Be explicit about quality gates
 Define "done" explicitly. List every check that must pass before a change is considered complete.
@@ -74,7 +88,7 @@ Scope every line to what changes. Omit anything that does not affect how the age
 
 - **Documentation for humans only** — deployment runbooks, org context, roadmap.
 - **Things enforced by tooling** — if ruff catches it, you don't need to describe it.
-- **Speculation** — don't document intended future architecture that doesn't exist yet.
+- **Unconfirmed speculation** — don't document intended future architecture, commands, or workflows as facts unless the user has explicitly chosen them.
 - **Redundant repetition** — say each convention once, clearly.
 
 ---
@@ -105,8 +119,9 @@ Never duplicate human-oriented content from `README.md` or `CONTRIBUTING.md` in 
 
 ## Clarification Questions
 
-When instructing an agent to write an `AGENTS.md`, answer these questions first:
+When instructing an agent to write an `AGENTS.md`, answer these questions first. For existing repositories, infer answers from files when possible. For fresh repositories, use the user's project specification and ask focused questions only for decisions that would otherwise make the file misleading.
 
+- [ ] Is this an existing repository, a fresh repository, or a skeletal repository with intended specs?
 - [ ] What is the primary language and framework?
 - [ ] What is the tech stack? (languages, build tools, package managers)
 - [ ] How are dependencies installed and the project run?
@@ -123,7 +138,9 @@ When instructing an agent to write an `AGENTS.md`, answer these questions first:
 
 ## Checklist Before Publishing
 
-- [ ] Every command is copy-pasteable and tested
+- [ ] The source of truth is clear: existing repository, user specification, or both
+- [ ] Every existing command is copy-pasteable and tested when feasible
+- [ ] Any proposed greenfield command or structure is based on confirmed specs or explicitly chosen defaults
 - [ ] Quality gates are explicit (what must pass = "done")
 - [ ] Architecture layering rules are stated if the project has them
 - [ ] Forbidden patterns are listed
