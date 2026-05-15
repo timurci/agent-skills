@@ -14,6 +14,7 @@ skills/
 ## Skills
 
 - `agents-md-writer` - guidance for creating, reviewing, and improving `AGENTS.md` files for AI coding agents.
+- `python-tdd` - guidance for Python test-driven development with `pytest`.
 
 ## Navigation
 
