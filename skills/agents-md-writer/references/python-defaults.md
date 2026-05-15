@@ -9,6 +9,9 @@ Do not override existing repository facts. If the project already uses different
 - Emphasize YAGNI: do not add abstractions, configuration hooks, plugin systems, or extra layers unless a current requirement justifies them.
 - Emphasize KISS: prefer the simplest implementation that satisfies the requirement. Use plain functions and direct data structures before introducing classes, frameworks, or indirection.
 - Let errors propagate. Do not catch exceptions only to return a silent fallback such as empty bytes, `None`, an empty collection, or a default object. Only catch exceptions when the code can meaningfully recover or add useful context before re-raising.
+- Separate raising exceptions from catching exceptions. "Let errors propagate" argues against unnecessary `try`/`except` blocks; it does not argue against raising meaningful exceptions.
+- Raise exceptions directly when code detects a condition that violates a project rule, domain rule, invariant, required behavior, unsupported configuration, forbidden input shape, or impossible branch. Use a project-specific exception named `class <PascalCaseName>Error(Exception)` for these project or domain errors.
+- Use `try`/`except` only when catching the exception is part of the intended behavior. The handler must do something meaningful: recover, return a documented fallback, translate the failure into a domain-level result, or add context before re-raising. Do not catch exceptions merely to hide failures or replace them with `None`, `False`, empty collections, or default objects unless that fallback is the documented behavior.
 - Never use `cast`. Prefer improving type definitions, narrowing control flow, introducing typed helpers, or fixing the underlying type model.
 
 ## Preferred Development Stack
