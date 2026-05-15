@@ -19,6 +19,8 @@ Use `pytest` for Python tests. Run tests with `uv run pytest` when the project u
 6. Refactor only after the targeted test passes.
 7. Run the relevant broader test set before finishing.
 
+After the primary behavior test passes, add edge-case or error-path tests only when they are specified, risky, or introduced by meaningful branching in the implementation.
+
 ### Bug Fixes
 
 1. Write a regression test that reproduces the bug before changing the implementation.
@@ -60,6 +62,7 @@ Not every change needs a new test:
 
 ## Test Quality
 
+- Prefer testing observable behavior over implementation details. Do not assert private helper calls, internal ordering, or intermediate data structures unless they are part of the contract.
 - Test only behavior introduced by this project. Do not test Python, the standard library, or third-party library behavior as though it were project behavior.
 - Do not duplicate coverage. If two tests exercise the same code path with the same assertions, keep one.
 - Use `@pytest.mark.parametrize` when inputs differ only in data and each case adds real behavioral value.
@@ -68,6 +71,16 @@ Not every change needs a new test:
 - Public docstrings and return type annotations are not required in test files.
 - Keep tests fast and deterministic.
 - Avoid real network calls. Use mocks, stubs, or fakes for external dependencies.
+
+## Boundaries and Test Doubles
+
+- Do not mock the code under test. Mock or fake external boundaries such as network clients, clocks, random sources, subprocesses, databases, expensive services, and third-party APIs.
+- Use `tmp_path` for filesystem tests. Do not write to repository paths, user home directories, or global temp locations unless the test explicitly covers that behavior.
+- Use `monkeypatch` for environment variables, current working directory changes, module attributes, `sys.path`, and other process-global state.
+- Avoid leaving global state modified after a test.
+- Control time, randomness, and generated identifiers in tests. Inject clocks, seeds, or ID providers when needed.
+- Use `pytest.raises` to assert expected exceptions. Assert on the message or custom attributes when they are part of the contract.
+- Keep fixture scope as narrow as possible. Use function-scoped fixtures by default; widen scope only when setup cost or shared immutable state justifies it.
 
 ## Organization Patterns
 
