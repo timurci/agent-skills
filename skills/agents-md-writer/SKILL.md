@@ -1,3 +1,8 @@
+---
+name: agents-md-writer
+description: Use when creating, reviewing, or improving AGENTS.md files that instruct AI coding agents how to work in a repository, including project commands, conventions, constraints, quality gates, and examples.
+---
+
 # How to Write a Good AGENTS.md
 
 An `AGENTS.md` file is the **operating manual for AI coding agents** (Claude, Codex, Cursor, etc.) working inside your repository. Think of it as the onboarding doc you would write for a very capable but context-free new engineer: precise, actionable, and never ambiguous.
