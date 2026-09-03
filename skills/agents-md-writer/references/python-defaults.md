@@ -4,6 +4,8 @@ Use these defaults when writing `AGENTS.md` for a Python project and the user as
 
 Do not override existing repository facts. If the project already uses different package management, linting, formatting, testing, pre-commit, or type-checking tools, document the existing tools instead.
 
+Apply the lean filter from the main skill: include a default only if it is load-bearing for the agent (changes how code is written or checked). Prefer omission over exhaustive coverage.
+
 ## General Preferences
 
 - Emphasize YAGNI: do not add abstractions, configuration hooks, plugin systems, or extra layers unless a current requirement justifies them.

@@ -5,58 +5,48 @@ description: Use when creating, reviewing, or improving an AGENTS.md file for a 
 
 # How to Write a Good AGENTS.md
 
-An `AGENTS.md` is the operating manual for AI coding agents in a repository — what an agent reads at the start of every session to learn what the project is, how to work in it, and what not to do, with enough context to make locally correct decisions without asking.
+An `AGENTS.md` is the operating manual for AI coding agents — what an agent reads at the start of a session to make locally correct decisions without asking. It should give high-level design decisions and insight into project conventions, not an exhaustive rulebook.
 
 Every line must be **grounded**: traceable to a repository fact or a confirmed user decision, never invented or aspirational.
 
 ## Process
 
-1. **Ground the file.** Establish the source of truth before writing:
-   - **Existing repository** — inspect manifests, configs, tests, scripts, and CI; derive commands, tooling, structure, and conventions from what exists.
-   - **Fresh or skeletal repository** — use the user's project spec as the source of truth. Write for the intended project, but do not claim commands, files, or tooling exist unless they do.
-   - **Mixed signals** — where repo contents conflict with the user's description, treat the repo as current fact and the description as intended direction. Ask before encoding future intentions as present-tense instructions.
-
-   For greenfield work, separate confirmed decisions from unresolved ones. If the user delegates the choice, pick simple conventional defaults and encode them directly; if not, ask before inventing tooling, directory structure, quality gates, or commands.
+1. **Ground.** Inspect manifests, configs, tests, scripts, and CI; derive tooling, commands, structure, and conventions from what exists. For a fresh or skeletal repo, use the user's spec as source of truth but do not claim files/commands exist unless they do. Where repo and description conflict, treat the repo as current fact and the description as intended direction.
 
    *Done when every instruction traces to a repository fact or a confirmed user decision.*
 
-2. **Write the sections.** Cover every applicable section in the table below, following the writing rules. Each section is imperative and gives exact, copy-pasteable commands.
+2. **Draft lean.** Start with the root `AGENTS.md`. Add only what an agent needs to work correctly in that scope (see what to include/omit). Extract scoped content into subdirectory files per the splitting rules — do not repeat.
 
-   *Done when every applicable section is present, imperative, and grounded.*
+   *Done when every included line passes the omit tests and sits in its scope-matched file.*
 
 3. **Verify.** Run the completion check.
 
    *Done when the completion check passes.*
 
+## What to include / what to omit
+
+Include only what changes how the agent writes or checks code:
+
+- One-paragraph project orientation (what the project is + load-bearing design choice, e.g. DDD).
+- Project structure map — where things live, with links to subdirectory `AGENTS.md` for deep conventions.
+- Quality gate — exact, copy-pasteable commands that define "done" (e.g. `cargo test`, `cargo clippy --all-targets`).
+- Architectural invariants and conventions that are non-obvious and not enforced by linters (e.g. aggregate-root ownership, error handling shape).
+
+Omit:
+
+- Anything that does not affect how code is written or checked — deployment runbooks, org charts, roadmaps.
+- What the agent already knows ("don't break syntax") or what tooling enforces (if ruff/clippy catches it, don't restate it).
+- Speculative or aspirational rules. Ask of each line: "Would omitting this cause the agent to make a wrong decision?" If not, omit. Ask also: "Could this constrain a future decision we haven't made?" If yes, omit or soften.
+
+For each convention, say it once, in its single home.
+
 ## Writing rules
 
-- **Be imperative, not descriptive.** Write instructions, never narration. "Always run `uv run ruff format` before committing" — not "The project uses ruff for formatting."
-- **Prefer exact commands over prose.** Give a copy-pasteable command for every task; never describe a command in prose when an exact command exists.
-- **Layer general to specific.** Project overview → environment setup → conventions → workflow → constraints. Agents scan top-to-bottom, so front-load the most load-bearing decisions.
-- **Encode only non-obvious decisions.** Omit what the agent already knows ("don't break syntax") and what tooling enforces (if ruff catches it, don't describe it). Keep the non-obvious, like "never raise bare `Exception`; use domain-specific error classes."
+- **Imperative and concise.** Write instructions, not narration. Front-load load-bearing decisions; agents scan top-to-bottom.
+- **Exact commands for gates, prose otherwise.** Give copy-pasteable commands for the quality gate and setup when a command exists; do not describe a command in prose when the exact command is known. Do not invent exact commands outside gates.
 - **Define "done" explicitly.** List every check that must pass before a change is complete; that list is the quality gate.
-- **Scope to what changes.** Omit anything that doesn't affect how the agent writes or checks code — deployment runbooks, org charts, roadmaps. Ask of each line: "Would this change how the agent writes or checks code?"
-- **Say each convention once.** One clear statement per rule, in its single home.
 
-## Sections
-
-| Section | Purpose | Required? |
-|---|---|---|
-| **Project overview** | One-paragraph orientation | Yes |
-| **Tech stack** | Languages, frameworks, key libraries | Yes |
-| **Environment setup** | How to install deps and run the project | Yes |
-| **Linting / formatting** | Exact commands, when to run | Yes |
-| **Type checking** | Tool + command | Yes if used |
-| **Testing** | Command, coverage expectations, test conventions | Yes |
-| **Pre-commit hooks** | How to install and run | Yes if used |
-| **Project structure** | Directory map + what lives where | Yes |
-| **Architecture / design notes** | Layering rules, dependency direction, key invariants | For non-trivial projects |
-| **Code conventions** | Naming, patterns to use/avoid, style linters don't catch | Yes |
-| **Git / PR conventions** | Branch naming, commit style, PR scope | Optional but useful |
-| **What NOT to do** | Explicit anti-patterns, forbidden patterns | Highly recommended |
-| **Known gotchas** | Non-obvious env issues, quirks | As needed |
-
-## Placement
+## Placement and splitting
 
 | File | Scope |
 |---|---|
@@ -64,7 +54,14 @@ Every line must be **grounded**: traceable to a repository fact or a confirmed u
 | `/backend/AGENTS.md` | Only the `backend/` subtree |
 | `/scripts/AGENTS.md` | Only the `scripts/` subtree |
 
-Agents merge parent + subdirectory files. Use subdirectory files to override or extend, not repeat. Keep each file ≤ ~200 lines; split into subdirectory files when it grows past that.
+Agents merge parent + subdirectory files. Use subdirectory files to extend or specialize, not repeat.
+
+Split into a subdirectory `AGENTS.md` when **either** condition holds:
+
+1. **Size — parent passes 200 lines.** Move scoped content to the subdirectory that owns it until the parent is back under 200 lines.
+2. **Scope/path mismatch — instruction scope does not match file location.** If a rule applies only to a subtree (e.g. domain-model invariants that live in `src/model/`), it belongs in that subtree's `AGENTS.md` even if the parent is still under 200 lines. Audit each block: "Does this apply repo-wide? If not, relocate."
+
+Keep each file ≤200 lines. Prefer a short root that links out over a long root that exhausts every sub-area.
 
 ## Relationship to README and CONTRIBUTING
 
@@ -72,7 +69,7 @@ Agents merge parent + subdirectory files. Use subdirectory files to override or 
 |---|---|---|
 | `README.md` | Human contributors | Quick start, project description, contribution guidelines |
 | `CONTRIBUTING.md` | Human contributors | Detailed process for submitting changes, code of conduct |
-| `AGENTS.md` | AI agents | Exact commands, conventions, constraints, quality gates |
+| `AGENTS.md` | AI agents | High-level design decisions, project conventions, quality gates |
 
 Never duplicate human-oriented content from `README.md` or `CONTRIBUTING.md` in `AGENTS.md`. Cross-reference them if an agent needs to know they exist.
 
@@ -87,6 +84,7 @@ Defaults fill gaps only — they never override existing repository facts or exp
 Before finishing, confirm:
 
 - [ ] Every instruction is **grounded** — traced to a repository fact or a confirmed user decision; no invented or aspirational content.
-- [ ] Every applicable section in the table is present, imperative, and gives exact commands.
-- [ ] No human-only content is duplicated from `README.md` or `CONTRIBUTING.md`.
-- [ ] The file is ≤ ~200 lines, or split into subdirectory files.
+- [ ] File is **lean** — every line changes how the agent writes or checks code; no tool-enforced restatements or speculative constraints.
+- [ ] Quality gate (if applicable) lists exact, copy-pasteable commands that define "done".
+- [ ] No human-only content duplicated from `README.md` or `CONTRIBUTING.md`.
+- [ ] Each file is ≤200 lines and scope-matched — the splitting rules are applied.
