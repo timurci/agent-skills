@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explainer title</title>
+<style>
+/* >>> inline assets/base.css here (tokens + components), then this layer, then your
+   own component set if you have one — see references/style.md <<< */
+@import url("base.css");
+
+/* explainer-specific layer */
+html{scroll-behavior:smooth}
+body{font-size:18px;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding:0 28px}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--toc-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:18px;overflow-x:auto;padding-top:12px;padding-bottom:12px;font-size:14px;font-family:var(--mono)}
+nav.toc a{color:var(--muted);text-decoration:none;white-space:nowrap;font-weight:600}
+nav.toc a:hover{color:var(--ink)}
+.hero{padding:72px 0 40px}
+.hero .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hero h1{font-size:54px;margin:14px 0 18px}
+.hero .tldr{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--subject);border-radius:var(--r);padding:20px 24px;font-size:19px}
+section.s{padding:56px 0;border-top:1px solid var(--line)}
+section.s h2{font-size:32px;margin-bottom:14px}
+section.s p{margin:14px 0;color:var(--prose)}
+.sowhat{margin-top:22px;padding:14px 18px;background:var(--subject-bg);border-radius:8px;font-weight:600;color:var(--subject)}
+figure.fig{margin:28px 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;overflow-x:auto}
+figure.fig figcaption{margin-top:12px;font-size:14px;color:var(--faint)}
+.analogy{border-left:4px solid var(--note);background:var(--note-bg);padding:16px 20px;border-radius:6px;margin:22px 0}
+.analogy b{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--note);display:block;margin-bottom:4px}
+.eq{margin:22px 0;padding:18px;background:var(--surface);border-radius:8px;overflow-x:auto;text-align:center}
+@media print{nav.toc{display:none} section.s{break-inside:avoid-page} figure.fig{break-inside:avoid}}
+</style>
+</head>
+<body>
+<nav class="toc"><div class="wrap">
+  <a href="#problem">Problem</a><a href="#idea">Key idea</a><a href="#how">How it works</a><a href="#results">Results</a><a href="#caveats">Caveats</a>
+</div></nav>
+
+<div class="wrap">
+  <header class="hero">
+    <!-- wordmark slot: your brand name here, or an inlined logo in <div class="brand"> (see references/style.md) -->
+    <div class="kicker">Explainer · Paper / Concept name</div>
+    <h1>A title that states the big idea</h1>
+    <div class="tldr"><b>TL;DR.</b> Two sentences: the problem, then the trick that solves it.</div>
+  </header>
+
+  <section class="s" id="problem">
+    <h2>The heading states the point of this section</h2>
+    <p>One to three short paragraphs. Define each term where it first appears.</p>
+    <figure class="fig">
+      <!-- VISUAL SLOT: diagram (inline SVG / Mermaid) -->
+      <svg viewBox="0 0 700 160" width="100%" role="img" aria-label="placeholder diagram">
+        <rect x="20" y="40" width="180" height="80" rx="10" fill="var(--baseline-bg)" stroke="var(--baseline)" stroke-width="2"/>
+        <text x="110" y="80" text-anchor="middle" dominant-baseline="central" font-family="var(--sans)" font-size="17" font-weight="650" fill="var(--ink)">Input</text>
+        <path d="M200 80H290" stroke="var(--ink)" stroke-width="2" marker-end="url(#ar)"/>
+        <rect x="290" y="40" width="180" height="80" rx="10" fill="var(--subject-bg)" stroke="var(--subject)" stroke-width="2"/>
+        <text x="380" y="80" text-anchor="middle" dominant-baseline="central" font-family="var(--sans)" font-size="17" font-weight="650" fill="var(--ink)">Key step</text>
+        
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>
+      </svg>
+      <figcaption>Figure 1. Caption says what to notice, not just what it is.</figcaption>
+    </figure>
+    <div class="sowhat">So what: one sentence on why this section matters for the next.</div>
+  </section>
+
+  <section class="s" id="idea">
+    <h2>Key idea section</h2>
+    <div class="analogy"><b>Think of it like</b>One concrete everyday analogy, carried through the whole piece.</div>
+    <!-- pre-render LaTeX to MathML and paste the result (references/toolkit.md §4): raw $$ never renders, and the lint can't see it -->
+    <div class="eq"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi></mrow><mo stretchy="false">(</mo><mi>Q</mi><mo separator="true">,</mo><mi>K</mi><mo separator="true">,</mo><mi>V</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mrow><mtext>&#8201;&#8291;</mtext><mrow><mo fence="true">(</mo><mstyle scriptlevel="0" displaystyle="false"><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi mathvariant="normal">&#8868;</mi></msup></mrow><msqrt><msub><mi>d</mi><mi>k</mi></msub></msqrt></mfrac></mstyle><mo fence="true">)</mo></mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\!\left(\tfrac{QK^\top}{\sqrt{d_k}}\right)V</annotation></semantics></math></span></div>
+    <p>Say in plain words what each symbol does before or right after the equation.</p>
+  </section>
+
+  <section class="s" id="how"><h2>How it works</h2><p>…</p></section>
+  <section class="s" id="results"><h2>What the results show</h2><p>…</p></section>
+  <section class="s" id="caveats"><h2>Caveats and open questions</h2><p>…</p></section>
+</div>
+
+<!-- Libraries: pin versions, load only what's used. KaTeX needs script + its own CSS, so for hosts that block stylesheets use MathML output or pre-render. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+</body></html>

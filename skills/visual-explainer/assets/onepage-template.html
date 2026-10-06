@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the signal moved</title>
+<style>
+/* >>> inline assets/base.css here, or your own component set (references/style.md); this @import only resolves in place <<< */
+@import url("base.css");
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <h1>Where The Signal Moved</h1>
+    <!-- wordmark slot: your brand name here, or an inlined logo in <div class="brand"> (see references/style.md) -->
+    <span class="tag outline mono">@handle</span>
+  </div>
+
+  <!-- Pattern B: three stage cards joined by arrows. .c-* classes are roles, not hues. -->
+  <div class="row">
+    <div class="card c-baseline">
+      <div class="top"><h2>Open internet</h2><span class="tag">Old corpus</span></div>
+      <p class="body">Early models learned from public material that was easy to scrape, index, and replay.</p>
+      <div class="pills"><span class="pill">blogs</span><span class="pill">forums</span><span class="pill">repos</span></div>
+    </div>
+    <div class="arrow"><svg width="44" height="24" viewBox="0 0 44 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h38M30 3l10 9-10 9"/></svg></div>
+    <div class="card c-subject">
+      <div class="top"><h2>Agent sessions</h2><span class="tag">Live signal</span></div>
+      <p class="body">The useful traces now sit inside coding loops where people ask, edit, reject, retry, and correct.</p>
+      <div class="pills"><span class="pill">prompts</span><span class="pill">git diffs</span><span class="pill">logs</span></div>
+    </div>
+    <div class="arrow"><svg width="44" height="24" viewBox="0 0 44 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h38M30 3l10 9-10 9"/></svg></div>
+    <div class="card c-meta">
+      <div class="top"><h2>Provider firehose</h2><span class="tag">Control point</span></div>
+      <p class="body">A few platforms can see the full loop, not just the final commit that lands in public.</p>
+      <div class="pills"><span class="pill">sentiment</span><span class="pill">annotations</span><span class="pill">next model</span></div>
+    </div>
+  </div>
+
+  <div class="grid g4 mt">
+    <div class="step"><i>1</i><b>You ask</b><p>Intent enters the tool</p></div>
+    <div class="step"><i>2</i><b>You react</b><p>Approval and frustration become signal</p></div>
+    <div class="step"><i>3</i><b>You correct</b><p>Diffs and retries mark what worked</p></div>
+    <div class="step"><i>4</i><b>They learn</b><p>The next code model absorbs the loop</p></div>
+  </div>
+
+  <div class="callout mt"><em>Training signal no longer just lives on the internet</em> — it lives inside the session loop</div>
+  <div class="footer"><span>Source: illustrative example</span><span>Made with HTML + CSS</span></div>
+</div>
+</body></html>

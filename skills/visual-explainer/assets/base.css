@@ -1,0 +1,110 @@
+/* base.css — the shipped component stylesheet for explainer pages; one of several
+   styling routes (references/style.md). The :root block holds the palette, the
+   five colour roles (meanings in SKILL.md), fonts, radius, spacing, and page
+   width; retarget it to rebrand. */
+:root{
+  /* palette — the default hues; the roles below point at these */
+  --bg:#ffffff; --surface:#f8f9fb; --ink:#0f1115; --muted:#5b6472; --faint:#8a93a0; --line:#dfe3e8;
+  --blue:#1f5fbf;   --blue-bg:#e8f0fc;
+  --green:#1f7a57;  --green-bg:#e6f4ee;
+  --purple:#5b3fc4; --purple-bg:#eeebfa;
+  --red:#c62828;    --red-bg:#fbeaea;
+  --amber:#b7791f;  --amber-bg:#fbf1dc;
+
+  /* roles — meanings in SKILL.md; components use these, never raw hues; remap to rebrand */
+  --subject:var(--green);   --subject-bg:var(--green-bg);
+  --baseline:var(--blue);   --baseline-bg:var(--blue-bg);
+  --meta:var(--purple);     --meta-bg:var(--purple-bg);
+  --alert:var(--red);       --alert-bg:var(--red-bg);
+  --note:var(--amber);      --note-bg:var(--amber-bg);
+
+  --accent:var(--baseline); --accent-bg:var(--baseline-bg);  /* per-card override via .c-* below */
+  --track:#eceef2; --bar:#a9b3c1; --arrow:#c3cad4; --callout-bg:#f6faf8;
+  --prose:#2b313a; --toc-bg:rgba(255,255,255,.92);   /* body copy; sticky nav (explainer) */
+
+  --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --page-w:1280px; --page-narrow-w:900px;
+  --r:10px; --gap:24px;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.4}
+.page{width:var(--page-w);padding:48px 52px;margin:0 auto}   /* the screenshot target */
+.page.narrow{width:var(--page-narrow-w)}
+
+/* type scale */
+h1{font-size:44px;line-height:1.08;letter-spacing:-.02em;font-weight:800}
+h2{font-size:26px;line-height:1.15;letter-spacing:-.01em;font-weight:750}
+h3{font-size:20px;line-height:1.2;font-weight:700}
+.sub{font-size:18px;color:var(--muted);margin-top:8px}
+.body{font-size:16px;color:var(--muted)}
+.small{font-size:13px;color:var(--faint)}
+.mono{font-family:var(--mono)}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+
+/* brand slot — inline your wordmark or logo.svg here */
+.brand{display:flex;align-items:center;gap:10px}
+.brand img,.brand svg{height:34px;width:auto;display:block}
+
+/* layout helpers */
+.row{display:flex;gap:var(--gap);align-items:stretch}
+.row > .card{flex:1}
+.grid{display:grid;gap:var(--gap)}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+.mt{margin-top:var(--gap)} .mt-s{margin-top:12px}
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:28px}
+
+/* card: border + radius + coloured top stripe */
+.card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r);padding:26px 28px;display:flex;flex-direction:column;gap:12px}
+.card.left{border-top:1px solid var(--line);border-left:4px solid var(--accent)}
+.card.plain{border-top:1px solid var(--line)}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.c-subject{--accent:var(--subject);--accent-bg:var(--subject-bg)}
+.c-baseline{--accent:var(--baseline);--accent-bg:var(--baseline-bg)}
+.c-meta{--accent:var(--meta);--accent-bg:var(--meta-bg)}
+.c-alert{--accent:var(--alert);--accent-bg:var(--alert-bg)}
+.c-note{--accent:var(--note);--accent-bg:var(--note-bg)}
+
+/* tags + pills */
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:4px 9px;border-radius:6px;white-space:nowrap}
+.tag.outline{background:var(--bg);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:7px 16px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.pill{font-size:15px;font-weight:600;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 15px}
+.chip{font-family:var(--mono);font-size:14px;font-weight:600;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+
+/* ranked bars:
+   <div class="bar-row hl"><span class="rank first">1</span><span class="name">Model</span><span class="val">1815</span>
+   <div class="track"><i style="width:98%"></i></div></div> */
+.bar-row{display:grid;grid-template-columns:34px 1fr auto;align-items:center;column-gap:14px;row-gap:8px;margin-top:14px}
+.rank{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg);display:grid;place-items:center;font-weight:700;font-size:15px;color:var(--muted)}
+.rank.first{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.name{font-size:20px;font-weight:650} .val{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.track{grid-column:1/-1;height:12px;border-radius:4px;background:var(--track);border:1px solid var(--line);overflow:hidden}
+.track i{display:block;height:100%;background:var(--bar)}
+.bar-row.hl .name,.bar-row.hl .val{color:var(--subject)} .bar-row.hl .track i{background:var(--subject)}
+
+/* hero stat */
+.stat{display:flex;align-items:baseline;gap:8px}
+.stat b{font-size:96px;line-height:1;font-weight:800;letter-spacing:-.04em}
+.stat span{font-size:28px;font-weight:600;color:var(--faint)}
+.badge{display:inline-block;font-family:var(--mono);font-weight:800;letter-spacing:.1em;font-size:14px;background:var(--subject);color:var(--bg);border-radius:999px;padding:7px 16px}
+
+/* numbered steps: <div class="step"><i>1</i><b>You ask</b><p>...</p></div> */
+.step{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;display:flex;flex-direction:column;gap:6px}
+.step i{font-style:normal;width:34px;height:34px;border-radius:50%;background:var(--subject);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:14px;margin-bottom:6px}
+.step b{font-size:18px} .step p{font-size:14.5px;color:var(--muted)}
+
+/* arrow between cards (inline SVG inside .arrow) and "VS" divider */
+.arrow{display:flex;align-items:center;justify-content:center;width:56px;flex:none;color:var(--arrow)}
+.vs{display:flex;align-items:center;font-weight:800;color:var(--muted);letter-spacing:.06em}
+
+/* table */
+table{width:100%;border-collapse:collapse;font-size:16px}
+th{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--muted);padding:14px 18px;background:var(--surface);border-bottom:2px solid var(--line)}
+td{padding:16px 18px;border-bottom:1px solid var(--line);color:var(--muted);vertical-align:top}
+td:first-child{font-family:var(--mono);font-weight:700;color:var(--ink)}
+
+/* takeaway: the single sentence to remember. One per page. */
+.callout{border-left:4px solid var(--subject);background:var(--callout-bg);border-radius:6px;padding:20px 24px;font-family:var(--mono);font-size:17px;font-weight:600}
+.callout em{font-style:normal;color:var(--alert)}
+.footer{margin-top:20px;font-size:12.5px;color:var(--faint);display:flex;justify-content:space-between;gap:16px}
